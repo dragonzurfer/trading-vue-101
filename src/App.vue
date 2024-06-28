@@ -36,11 +36,11 @@ export default {
     setupWebSocket() {
       this.ws = new WebSocket('wss://tradingfno.com/ws');
       this.ws.onopen = () => {
-        this.ws.send('subscribe:NSE:NIFTY50-INDEX');
+        this.ws.send('subscribe:MCX:CRUDEOIL24JULFUT');
       };
       this.ws.onmessage = (message) => {
         const [ticker, priceStr] = message.data.match(/\[([^\]]+)]/g).map(str => str.slice(1, -1));
-        if (ticker === 'NSE:NIFTY50-INDEX' && this.cData && this.cData.chart.data.length > 0) {
+        if (ticker === 'MCX:CRUDEOIL24JULFUT' && this.cData && this.cData.chart.data.length > 0) {
           const price = parseFloat(priceStr);
           const lastCandle = this.cData.chart.data[this.cData.chart.data.length - 1];
           const now = new Date();
@@ -101,7 +101,7 @@ export default {
       };
 
       try {
-        const response = await fetch('http://localhost:9994/app/no-auth/candles', {
+        const response = await fetch('https://tradingfno.com/app/no-auth/candles', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

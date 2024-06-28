@@ -19,6 +19,16 @@
 <script>
 export default {
   props: ["form"],
+  mounted() {
+    const now = new Date();
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(now.getDate() - 7);
+
+    this.form.ticker = 'MCX:CRUDEOIL24JULFUT';
+    this.form.timeframe = '5minute';
+    this.form.from = oneWeekAgo.toISOString().slice(0, 16);
+    this.form.to = now.toISOString().slice(0, 16);
+  },
 };
 </script>
 
